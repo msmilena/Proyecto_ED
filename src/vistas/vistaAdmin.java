@@ -4,7 +4,7 @@
  */
 package vistas;
 
-import controladores.controladorInventario;
+import controladores.ControladorVistaAdmin;
 import java.awt.BorderLayout;
 
 
@@ -177,7 +177,7 @@ public class vistaAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
-        controladorInventario c = new controladorInventario(vInventario);
+        
         vInventario.setSize(640,560);
         vInventario.setLocation(0,0);
         Content.removeAll();
@@ -245,7 +245,7 @@ public class vistaAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
     private javax.swing.JPanel Content;
-    private javax.swing.JButton btnCliente;
+    public javax.swing.JButton btnCliente;
     private javax.swing.JButton btnInventario;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel11;

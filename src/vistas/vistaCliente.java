@@ -4,7 +4,6 @@
  */
 package vistas;
 
-import controladores.controladorProductos;
 import java.awt.BorderLayout;
 
 

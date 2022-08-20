@@ -14,12 +14,19 @@ import java.sql.SQLException;
  *
  * @author Milena
  */
+/**
+ * Clase que se conecta a la base de datos y recupera datos de ella
+ */
 public class productoDAO {
     Conexion conectar= new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
     
+    /**
+     * Retorna una lista de productos de la base de datos
+     * @return A list of products.
+     */
     public listaEnlazadaProducto Listar(){
         listaEnlazadaProducto listaSimple = new listaEnlazadaProducto();
         String sql = "Select * from productos";
@@ -27,6 +34,7 @@ public class productoDAO {
             con = (Connection) conectar.conexion();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
+            // Iterando a través del resultset y agregando cada fila a la lista enlazada simple.
             while(rs.next()){
                 
                 int id = rs.getInt(1);
@@ -45,6 +53,10 @@ public class productoDAO {
         return listaSimple;
     }
     
+    /**
+     * Toma un objeto nodoProducto y lo inserta en la base de datos
+     * @param p es el objeto que contiene los datos a insertar en la base de datos.
+     */
     public int agregar(nodoProducto p){
         String sql = "insert into productos(nombre,categoria,precio,cantidad) values(?,?,?,?)";
                 try{
@@ -63,6 +75,10 @@ public class productoDAO {
         return 1;
     }
     
+    /**
+     * Actualiza la base de datos con los nuevos valores del producto
+     * @param p es el objeto que contiene los datos a actualizar
+     */
     public int actualizar(nodoProducto p){
         int verificador = 0;
         String sql = "update productos set nombre=?, categoria=?, precio=?, cantidad=? where id=?";
@@ -86,6 +102,10 @@ public class productoDAO {
         return verificador;
     }
     
+    /**
+     * Borra una fila de la base de datos
+     * @param id int
+     */
     public void delete(int id){
         String sql = "delete from productos where id="+id;
         try{

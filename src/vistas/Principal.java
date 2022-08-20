@@ -4,8 +4,8 @@
  */
 package vistas;
 
-import controladores.controladorInventario;
-import controladores.controladorProductos;
+import controladores.ControladorVistaAdmin;
+import controladores.ControladorVistaCliente;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -114,7 +114,7 @@ public class Principal extends javax.swing.JFrame {
     private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
         // TODO add your handling code here:
         vistaCliente newframe = new vistaCliente(); 
-        controladorProductos c = new controladorProductos(newframe);
+        ControladorVistaCliente c = new ControladorVistaCliente(newframe);
         newframe.setVisible(true);
         
         //evita acumulacion de ventanas
@@ -124,6 +124,7 @@ public class Principal extends javax.swing.JFrame {
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
         // TODO add your handling code here:
         vistaAdmin newframe = new vistaAdmin(); 
+        ControladorVistaAdmin c = new ControladorVistaAdmin(newframe);
         newframe.setVisible(true);
         
         //evita acumulacion de ventanas

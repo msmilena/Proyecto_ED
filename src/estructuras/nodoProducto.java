@@ -10,6 +10,9 @@ package estructuras;
  * @author Milena
  */
 
+/**
+ * NodoProducto es una clase que contiene los atributos de un producto, y un puntero al siguiente producto
+ */
 public class nodoProducto{
     int id;
     String nombre;

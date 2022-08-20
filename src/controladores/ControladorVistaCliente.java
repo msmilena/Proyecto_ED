@@ -24,7 +24,7 @@ import vistas.RegistroUsuario;
  *
  * @author Milena
  */
-public class controladorProductos implements ActionListener{
+public class ControladorVistaCliente implements ActionListener{
     
     productoDAO daoProducto = new productoDAO();
     clienteDAO daoCliente = new clienteDAO();
@@ -41,7 +41,7 @@ public class controladorProductos implements ActionListener{
 
     Pila pilaCarrito = new Pila();
     
-    public controladorProductos(vistaCliente vClientes) {
+    public ControladorVistaCliente(vistaCliente vClientes) {
         this.ventanaCliente = vClientes;
         this.productos = vClientes.getVentanaProductos();
         this.carrito = vClientes.getVentanaCarrito();
@@ -81,6 +81,12 @@ public class controladorProductos implements ActionListener{
             for(int i=0;i<n;i++){
                 pilaCarrito.pop();
             }
+            //limpiando campos
+            carrito.txtPagoTotal.setText("0");
+            ventanaRegistro.txtNom.setText("");
+            ventanaRegistro.txtApellido.setText("");
+            ventanaRegistro.txtMonto.setText("");
+            
         }
     }
     

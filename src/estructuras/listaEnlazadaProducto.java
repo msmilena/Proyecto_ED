@@ -8,6 +8,9 @@ package estructuras;
  *
  * @author Milena
  */
+/**
+ * Es una lista enlazada simple de productos.
+ */
 public class listaEnlazadaProducto {
     nodoProducto lista = null;
 
