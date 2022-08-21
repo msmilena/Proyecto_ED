@@ -127,11 +127,11 @@ public class ControladorVistaAdmin implements ActionListener {
         //Se recorre la lista de productos
         for(int i = 0; i<listaSimple.contarNodos(); i++){
             //Se obtiene el producto en la posicion i
-            object[0] = listaSimple.buscarNodo(i).getId(); 
-            object[1] = listaSimple.buscarNodo(i).getNombre();
-            object[2] = listaSimple.buscarNodo(i).getCategoria();
-            object[3] = listaSimple.buscarNodo(i).getPrecio();
-            object[4] = listaSimple.buscarNodo(i).getCantidad();
+            object[0] = listaSimple.buscarNodoPos(i).getId(); 
+            object[1] = listaSimple.buscarNodoPos(i).getNombre();
+            object[2] = listaSimple.buscarNodoPos(i).getCategoria();
+            object[3] = listaSimple.buscarNodoPos(i).getPrecio();
+            object[4] = listaSimple.buscarNodoPos(i).getCantidad();
             //Se agrega el producto a la tabla
             modelo.addRow(object);
         }

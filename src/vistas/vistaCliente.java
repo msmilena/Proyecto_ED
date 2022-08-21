@@ -245,7 +245,7 @@ public class vistaCliente extends javax.swing.JFrame {
     private javax.swing.JPanel Content;
     public javax.swing.JButton btnCarrito;
     private javax.swing.JButton btnInventario;
-    private javax.swing.JButton btnRegresar;
+    public javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;

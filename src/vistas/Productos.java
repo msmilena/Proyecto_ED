@@ -34,6 +34,10 @@ public class Productos extends javax.swing.JPanel {
         tablaInventario = new javax.swing.JTable();
         btnAgregarCarrito = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        txtNombreProducto = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        spinnerCantidad = new javax.swing.JSpinner();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(650, 540));
@@ -94,6 +98,23 @@ public class Productos extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 36)); // NOI18N
         jLabel2.setText("Productos");
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, -1, -1));
+
+        txtNombreProducto.setEditable(false);
+        txtNombreProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreProductoActionPerformed(evt);
+            }
+        });
+        add(txtNombreProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 510, 120, -1));
+
+        jLabel3.setText("Producto");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 480, 70, -1));
+
+        jLabel4.setText("Cantidad");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 480, -1, -1));
+
+        spinnerCantidad.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        add(spinnerCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 510, 90, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -108,6 +129,10 @@ public class Productos extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarCarritoActionPerformed
 
+    private void txtNombreProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreProductoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnAgregarCarrito;
@@ -115,8 +140,12 @@ public class Productos extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    public javax.swing.JSpinner spinnerCantidad;
     public javax.swing.JTable tablaInventario;
+    public javax.swing.JTextField txtNombreProducto;
     // End of variables declaration//GEN-END:variables
 }

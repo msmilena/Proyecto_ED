@@ -12,7 +12,7 @@ package estructuras;
  * Es una lista enlazada simple de productos.
  */
 public class listaEnlazadaProducto {
-    nodoProducto lista = null;
+     nodoProducto lista = null;
 
     /**
      * Insertar un nodo al final de la lista enlazada simple
@@ -135,7 +135,7 @@ public class listaEnlazadaProducto {
     }
 
     //metodo para buscar un nodo en la lista por su posicion
-    public nodoProducto buscarNodo(int posicion){
+    public nodoProducto buscarNodoPos(int posicion){
         if(lista == null){
             System.out.println("La lista esta vacia");
         } else{
@@ -147,12 +147,40 @@ public class listaEnlazadaProducto {
                     
                     return n;
                 }
-                System.out.println(n.id + " " + n.nombre + " " + n.precio + " " + n.cantidad+ " " + n.categoria + "  sgte: " + n.getSiguiente().getNombre());
+                if(n.getSiguiente() == null){
+                    System.out.println(n.id + " " + n.nombre + " " + n.precio + " " + n.cantidad+ " " + n.categoria + "  sgte: null" );
+                }else{
+                    System.out.println(n.id + " " + n.nombre + " " + n.precio + " " + n.cantidad+ " " + n.categoria + "  sgte: " + n.getSiguiente().getNombre());
+                }
+                
                 contador++;
                 n = n.siguiente;
                 
             }
             System.out.println("El nodo con posicion " + posicion + " no ha sido encontrado");
+        }
+        return null;
+    }
+
+    //metodo para buscar un nodo en la lista por su id
+    public nodoProducto buscarNodoId(int id){
+        if(lista == null){
+            System.out.println("La lista esta vacia");
+        } else{
+            nodoProducto n = lista;
+            while(n != null){
+                if(n.id == id){
+                    System.out.println("Busqueda de nodo por id en lista enlazada simple");
+                    return n;
+                }
+                if(n.getSiguiente() == null){
+                    System.out.println(n.id + " " + n.nombre + " " + n.precio + " " + n.cantidad+ " " + n.categoria + "  sgte: null" );
+                }else{
+                    System.out.println(n.id + " " + n.nombre + " " + n.precio + " " + n.cantidad+ " " + n.categoria + "  sgte: " + n.getSiguiente().getNombre());
+                }
+                n = n.siguiente;
+            }
+            System.out.println("El nodo con id " + id + " no ha sido encontrado");
         }
         return null;
     }

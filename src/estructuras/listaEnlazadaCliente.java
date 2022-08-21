@@ -150,5 +150,23 @@ public class listaEnlazadaCliente {
         }
         return null;
     }
+
+    //metodo para buscar un nodo en la listaClientes por su id
+    public nodoCliente buscarNodoId(int id){
+        if(listaClientes == null){
+            System.out.println("La lista esta vacia");
+        } else{
+            nodoCliente n = listaClientes;
+            while(n != null){
+                if(n.getId() == id){
+                    System.out.println("Busqueda de nodo por id en lista enlazada simple");
+                    return n;
+                }
+                n = n.siguiente;
+            }
+            System.out.println("El nodo con id " + id + " no ha sido encontrado");
+        }
+        return null;
+    }
 }
 

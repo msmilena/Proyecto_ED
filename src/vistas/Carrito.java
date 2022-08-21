@@ -143,7 +143,7 @@ public class Carrito extends javax.swing.JPanel {
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
                 // TODO add your handling code here:
         
-        ventanaRegistroUsuario.setVisible(true);
+        //ventanaRegistroUsuario.setVisible(true);
         
         //evita acumulacion de ventanas
         // TODO add your handling code here:
