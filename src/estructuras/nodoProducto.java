@@ -20,7 +20,7 @@ public class nodoProducto{
     int precio;
     int cantidad;
     nodoProducto siguiente;
-
+    nodoProducto anterior;
     //Constructor
     
     public nodoProducto(int id, String nombre, String categoria, int precio, int cantidad) {
@@ -58,7 +58,10 @@ public class nodoProducto{
     public void setSiguiente(nodoProducto siguiente) {
         this.siguiente = siguiente;
     }
-
+    
+    public nodoProducto getAnterior() {
+        return this.anterior;
+    }
 
     public String getCategoria() {
         return categoria;

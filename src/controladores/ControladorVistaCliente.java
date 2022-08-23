@@ -5,6 +5,7 @@
 package controladores;
 
 import estructuras.Pila;
+import estructuras.listaCircularDobleProductos;
 import estructuras.listaEnlazadaProducto;
 import estructuras.nodoCliente;
 import estructuras.nodoProducto;
@@ -30,7 +31,9 @@ import vistas.RegistroUsuario;
  * @author Milena
  */
 public class ControladorVistaCliente implements ActionListener{
+    int cont=0;
     boolean compra = false;
+    
     productoDAO daoProducto = new productoDAO();
     clienteDAO daoCliente = new clienteDAO();
     nodoProducto p = new nodoProducto();
@@ -46,11 +49,20 @@ public class ControladorVistaCliente implements ActionListener{
 
     Pila pilaCarrito = new Pila();
     
+    
+    listaEnlazadaProducto listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
+            listaCircularDobleProductos circularDoble = new listaCircularDobleProductos();
+            nodoProducto actual = pasarSimpleaCircular(listaSimple, circularDoble);
+    
     public ControladorVistaCliente(vistaCliente vClientes) {
         this.ventanaCliente = vClientes;
         this.productos = vClientes.getVentanaProductos();
         this.carrito = vClientes.getVentanaCarrito();
         this.ventanaRegistro = vClientes.getVentanaCarrito().getVentanaRegistroUsuario();
+        
+        this.productos.btnVistaGaleria.addActionListener(this);
+        this.productos.btnAnterior.addActionListener(this);
+        this.productos.btnSiguiente.addActionListener(this);
         
         this.ventanaCliente.btnRegresar.addActionListener(this);
         this.ventanaCliente.btnCarrito.addActionListener(this);
@@ -64,6 +76,7 @@ public class ControladorVistaCliente implements ActionListener{
             }
         });
         
+        productos.panelGaleria.setVisible(false);
         productos.spinnerCantidad.setValue(0);
         listar(productos.tablaInventario);
         limpiarTabla(modelo, productos.tablaInventario);
@@ -73,6 +86,7 @@ public class ControladorVistaCliente implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e){
+        
         if(e.getSource() == productos.btnAgregarCarrito){
             agregarCarrito(productos.tablaInventario);
         }
@@ -120,6 +134,33 @@ public class ControladorVistaCliente implements ActionListener{
             compra = false;
         }
         
+        if(e.getSource() == productos.btnVistaGaleria){
+            if(cont == 0){
+                productos.panelTabla.setVisible(false);
+                productos.panelGaleria.setVisible(true);
+                productos.btnVistaGaleria.setText("Vista Tabla");
+                vistaGaleria(actual);
+                cont=1;
+            }else{
+                productos.panelTabla.setVisible(true);
+                productos.panelGaleria.setVisible(false);
+                productos.btnVistaGaleria.setText("Vista Galería");
+                productos.spinnerCantidad.setValue(0);
+                productos.txtNombreProducto.setText("");
+                cont =0;
+            }
+        }
+
+        if(e.getSource() == productos.btnAnterior){
+            actual = moverAnterior(actual);
+            vistaGaleria(actual);
+        }
+        
+        if(e.getSource() == productos.btnSiguiente){
+            actual = moverSiguiente(actual);
+            vistaGaleria(actual);
+        }
+        
     }
     
     public void listar(JTable tabla){
@@ -139,17 +180,30 @@ public class ControladorVistaCliente implements ActionListener{
     }
     
     public void agregarCarrito(JTable tabla){
+        int id=0, precio=0, cantidadTotal=0, cantidadComprar=0;
+        String nom="", cate="";
         int fila = productos.tablaInventario.getSelectedRow();
-        if(fila == -1){
+        
+        if(productos.txtNombreProducto.getText().isEmpty() == true  && fila == -1){
             JOptionPane.showMessageDialog(productos, "Debe seleccionar un producto");
             return;
         } else{
-            int id= Integer.parseInt(productos.tablaInventario.getValueAt(fila,0).toString());
-            String nom = (String)productos.tablaInventario.getValueAt(fila, 1);
-            String cate = (String)productos.tablaInventario.getValueAt(fila,2);
-            int precio = (int) productos.tablaInventario.getValueAt(fila,3);
-            int cantidadTotal = (int) productos.tablaInventario.getValueAt(fila,4);
-            int cantidadComprar = (int) productos.spinnerCantidad.getValue();
+            if(fila == -1){
+                id = Integer.parseInt(productos.txtId.getText());
+                nom = productos.txtNomProducto.getText();
+                cate = productos.txtCategoria.getText();
+                precio = Integer.parseInt(productos.txtPrecio.getText());
+                cantidadTotal = Integer.parseInt(productos.txtCantidad.getText());
+                cantidadComprar = (int) productos.spinnerCantidad.getValue();
+            }else{
+                id= Integer.parseInt(productos.tablaInventario.getValueAt(fila,0).toString());
+                nom = (String)productos.tablaInventario.getValueAt(fila, 1);
+                cate = (String)productos.tablaInventario.getValueAt(fila,2);
+                precio = (int) productos.tablaInventario.getValueAt(fila,3);
+                cantidadTotal = (int) productos.tablaInventario.getValueAt(fila,4);
+                cantidadComprar = (int) productos.spinnerCantidad.getValue();
+            }
+            
             //comprobar con la base de datos si la cantidad de productos es mayor a la que se quiere comprar
             if(cantidadComprar == 0){
                 JOptionPane.showMessageDialog(productos, "No se puede comprar 0 productos");
@@ -174,7 +228,7 @@ public class ControladorVistaCliente implements ActionListener{
                 limpiarTabla(modelo, productos.tablaInventario);
                 listar(productos.tablaInventario);
                 productos.spinnerCantidad.setValue(0);
-                
+                productos.txtNombreProducto.setText("");
             } else{
                 JOptionPane.showMessageDialog(productos, "No hay suficientes productos");
             }
@@ -277,5 +331,37 @@ public class ControladorVistaCliente implements ActionListener{
                 }
             }
         }
+    }
+    
+    public void vistaGaleria(nodoProducto actual){
+        productos.txtId.setText(""+actual.getId());
+        productos.txtNomProducto.setText(actual.getNombre());
+        productos.txtCantidad.setText(""+actual.getCantidad());
+        productos.txtCategoria.setText(actual.getCategoria());
+        productos.txtPrecio.setText(""+actual.getPrecio());
+        productos.txtNombreProducto.setText(actual.getNombre());
+        productos.spinnerCantidad.setValue(1);
+    }
+    
+    public nodoProducto moverAnterior(nodoProducto actual){
+        System.out.println("anterior");
+        actual = actual.getAnterior();
+        return actual;
+    }
+    
+    public nodoProducto moverSiguiente(nodoProducto actual){
+        System.out.println("Siguiente");
+        actual = actual.getSiguiente();
+        return actual;
+    }
+    
+    public nodoProducto pasarSimpleaCircular(listaEnlazadaProducto listaSimple, listaCircularDobleProductos circularDoble){
+        listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
+        //circularDoble = new listaCircularDobleProductos();
+        for(int i = 0; i<listaSimple.contarNodos(); i++){
+            circularDoble.copiarDatos(listaSimple.buscarNodoPos(i));
+        }
+        nodoProducto actual = circularDoble.getListaCircularDoble();
+        return actual;
     }
 }
