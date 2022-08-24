@@ -36,6 +36,9 @@ public class ControladorVistaAdmin implements ActionListener {
     ModificarProducto formEditarProd = new ModificarProducto();
     DefaultTableModel modelo = new DefaultTableModel();
     DefaultTableModel modelo1 = new DefaultTableModel();
+
+    listaEnlazadaProducto listaSimpleProducto = (listaEnlazadaProducto) daoProducto.Listar();
+    listaEnlazadaCliente listaSimpleCliente = (listaEnlazadaCliente) daoCliente.Listar();
     //un constructor que inicializa las variables y agrega los listeners de eventos a los botones
     public ControladorVistaAdmin(vistaAdmin vistaAdmin){
         this.vAdmin = vistaAdmin;
@@ -60,8 +63,6 @@ public class ControladorVistaAdmin implements ActionListener {
         listarProductos(inventario.tablaInventario);
         limpiarTabla(modelo, inventario.tablaInventario);
         listarProductos(inventario.tablaInventario);
-        
-        
     }
       
     @Override
@@ -73,13 +74,18 @@ public class ControladorVistaAdmin implements ActionListener {
             agregar();
             limpiarTabla(modelo, inventario.tablaInventario);
             listarProductos(inventario.tablaInventario);
+            formNuevoProducto.txtNom.setText("");
+            formNuevoProducto.txtPrecio.setText("");
+            formNuevoProducto.spinnerCantidad.setValue(0);
         }
         
         if(e.getSource() == inventario.btnEditar){
             int fila = inventario.tablaInventario.getSelectedRow();
             if(fila == -1){ //Si no se selecciona ninguna fila
                 JOptionPane.showMessageDialog(inventario, "Debe seleccionar un producto");
+                inventario.getVentanaModificarProducto().setVisible(false);
             } else{ //Si se selecciona una fila
+                inventario.getVentanaModificarProducto().setVisible(true);
                 //Se obtiene atributos del producto seleccionado
                 int id= Integer.parseInt(inventario.tablaInventario.getValueAt(fila,0).toString());
                 String nom = (String)inventario.tablaInventario.getValueAt(fila, 1);
@@ -99,6 +105,7 @@ public class ControladorVistaAdmin implements ActionListener {
             actualizar();
             limpiarTabla(modelo, inventario.tablaInventario);
             listarProductos(inventario.tablaInventario);
+            inventario.getVentanaModificarProducto().setVisible(false);
         }
         
         if(e.getSource() == inventario.btnEliminar){
@@ -122,16 +129,16 @@ public class ControladorVistaAdmin implements ActionListener {
     public void listarProductos(JTable tabla){
         modelo = (DefaultTableModel)tabla.getModel();
         //Se obtiene la lista de productos
-        listaEnlazadaProducto listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
+        listaSimpleProducto = (listaEnlazadaProducto) daoProducto.Listar();
         Object[]object = new Object[5];
         //Se recorre la lista de productos
-        for(int i = 0; i<listaSimple.contarNodos(); i++){
+        for(int i = 0; i<listaSimpleProducto.contarNodos(); i++){
             //Se obtiene el producto en la posicion i
-            object[0] = listaSimple.buscarNodoPos(i).getId(); 
-            object[1] = listaSimple.buscarNodoPos(i).getNombre();
-            object[2] = listaSimple.buscarNodoPos(i).getCategoria();
-            object[3] = listaSimple.buscarNodoPos(i).getPrecio();
-            object[4] = listaSimple.buscarNodoPos(i).getCantidad();
+            object[0] = listaSimpleProducto.buscarNodoPos(i).getId(); 
+            object[1] = listaSimpleProducto.buscarNodoPos(i).getNombre();
+            object[2] = listaSimpleProducto.buscarNodoPos(i).getCategoria();
+            object[3] = listaSimpleProducto.buscarNodoPos(i).getPrecio();
+            object[4] = listaSimpleProducto.buscarNodoPos(i).getCantidad();
             //Se agrega el producto a la tabla
             modelo.addRow(object);
         }
@@ -144,15 +151,15 @@ public class ControladorVistaAdmin implements ActionListener {
     public void listarClientes(JTable tabla){
         modelo1 = (DefaultTableModel)tabla.getModel();
         //Se obtiene la lista de productos
-        listaEnlazadaCliente listaSimple = (listaEnlazadaCliente) daoCliente.Listar();
+        listaSimpleCliente = (listaEnlazadaCliente) daoCliente.Listar();
         Object[]object = new Object[4];
         //Se recorre la lista de productos
-        for(int i = 0; i<listaSimple.contarNodos(); i++){
+        for(int i = 0; i<listaSimpleCliente.contarNodos(); i++){
             //Se obtiene el producto en la posicion i
-            object[0] = listaSimple.buscarNodo(i).getId(); 
-            object[1] = listaSimple.buscarNodo(i).getNombre();
-            object[2] = listaSimple.buscarNodo(i).getApellido();
-            object[3] = listaSimple.buscarNodo(i).getPagoTotal();
+            object[0] = listaSimpleCliente.buscarNodo(i).getId(); 
+            object[1] = listaSimpleCliente.buscarNodo(i).getNombre();
+            object[2] = listaSimpleCliente.buscarNodo(i).getApellido();
+            object[3] = listaSimpleCliente.buscarNodo(i).getPagoTotal();
             //Se agrega el producto a la tabla
             modelo1.addRow(object);
             System.out.println("esta agregando fila");
@@ -164,21 +171,25 @@ public class ControladorVistaAdmin implements ActionListener {
      * Tomar los valores del formulario y los envia a la clase DAO para que sean agregados a la base de datos
      */
     public void agregar(){
-        String nom = formNuevoProducto.txtNom.getText();
-        String cate = (String) formNuevoProducto.comboBoxCategoria.getSelectedItem();
-        int precio = Integer.parseInt(formNuevoProducto.txtPrecio.getText());
-        int cantidad = (int) formNuevoProducto.spinnerCantidad.getValue();
-        //envio
-        p.setNombre(nom);
-        p.setCategoria(cate);
-        p.setPrecio(precio);
-        p.setCantidad(cantidad);
-        int verificador = daoProducto.agregar(p);
-        
-        if(verificador == 1){
-            JOptionPane.showMessageDialog(inventario, "Producto agregado con exito");
-        }else{
-            JOptionPane.showMessageDialog(inventario, "Error");
+        if(formNuevoProducto.txtNom.getText().isBlank() == true || formNuevoProducto.txtPrecio.getText().isBlank() == true ||
+                (int) formNuevoProducto.spinnerCantidad.getValue() == 0){
+            JOptionPane.showMessageDialog(inventario, "Error. Campos incorrectos");
+        } else{
+            String nom = formNuevoProducto.txtNom.getText();
+            String cate = (String) formNuevoProducto.comboBoxCategoria.getSelectedItem();
+            int precio = Integer.parseInt(formNuevoProducto.txtPrecio.getText());
+            int cantidad = (int) formNuevoProducto.spinnerCantidad.getValue();
+            //envio
+            p.setNombre(nom);
+            p.setCategoria(cate);
+            p.setPrecio(precio);
+            p.setCantidad(cantidad);
+            int verificador = daoProducto.agregar(p);
+            if(verificador == 1){
+                JOptionPane.showMessageDialog(inventario, "Producto agregado con exito");
+            }else{
+                JOptionPane.showMessageDialog(inventario, "Error");
+            }
         }
     }
     

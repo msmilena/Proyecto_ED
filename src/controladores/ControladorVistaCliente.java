@@ -51,8 +51,8 @@ public class ControladorVistaCliente implements ActionListener{
     
     
     listaEnlazadaProducto listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
-            listaCircularDobleProductos circularDoble = new listaCircularDobleProductos();
-            nodoProducto actual = pasarSimpleaCircular(listaSimple, circularDoble);
+    listaCircularDobleProductos circularDoble = new listaCircularDobleProductos();
+    nodoProducto actual = pasarSimpleaCircular(listaSimple, circularDoble);
     
     public ControladorVistaCliente(vistaCliente vClientes) {
         this.ventanaCliente = vClientes;
@@ -81,12 +81,10 @@ public class ControladorVistaCliente implements ActionListener{
         listar(productos.tablaInventario);
         limpiarTabla(modelo, productos.tablaInventario);
         listar(productos.tablaInventario);
-        
     }
     
     @Override
     public void actionPerformed(ActionEvent e){
-        
         if(e.getSource() == productos.btnAgregarCarrito){
             agregarCarrito(productos.tablaInventario);
         }
@@ -165,7 +163,7 @@ public class ControladorVistaCliente implements ActionListener{
     
     public void listar(JTable tabla){
         modelo = (DefaultTableModel)tabla.getModel();
-        listaEnlazadaProducto listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
+        listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
         
         Object[]object = new Object[5];
         for(int i = 0; i<listaSimple.contarNodos(); i++){
@@ -313,7 +311,7 @@ public class ControladorVistaCliente implements ActionListener{
     }
     
     public void actualizarCantidad(){
-        listaEnlazadaProducto listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
+        listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
         if(compra == false){
             if(pilaCarrito.estaVacio() == false){
                 int n = pilaCarrito.contar();
@@ -356,7 +354,7 @@ public class ControladorVistaCliente implements ActionListener{
     }
     
     public nodoProducto pasarSimpleaCircular(listaEnlazadaProducto listaSimple, listaCircularDobleProductos circularDoble){
-        listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
+        //listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
         //circularDoble = new listaCircularDobleProductos();
         for(int i = 0; i<listaSimple.contarNodos(); i++){
             circularDoble.copiarDatos(listaSimple.buscarNodoPos(i));

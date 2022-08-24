@@ -160,7 +160,7 @@ public class Inventario extends javax.swing.JPanel {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
          
-        ventanaModificarProducto.setVisible(true);
+        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     //controladorProducto c = new controladorProducto(this,nuevoProducto, modificarProducto);
