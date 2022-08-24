@@ -4,12 +4,17 @@
  */
 package vistas;
 
+import com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme;
 import controladores.ControladorVistaAdmin;
 import controladores.ControladorVistaCliente;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -24,6 +29,12 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         this.setContentPane(fondomarket);
         initComponents();
+        setLocationRelativeTo(null);
+        try {
+            UIManager.setLookAndFeel(new FlatLightFlatIJTheme());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

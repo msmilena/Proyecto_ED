@@ -6,6 +6,10 @@ package vistas;
 
 import controladores.ControladorVistaAdmin;
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 
 
@@ -24,6 +28,7 @@ public class vistaAdmin extends javax.swing.JFrame {
     public vistaAdmin() {
        
         initComponents();
+        setLocationRelativeTo(null);
         
     }
 
@@ -52,7 +57,7 @@ public class vistaAdmin extends javax.swing.JFrame {
         btnInventario = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         btnCliente = new javax.swing.JButton();
-        Content = new javax.swing.JPanel();
+        Content = new FondoPanel();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -77,7 +82,7 @@ public class vistaAdmin extends javax.swing.JFrame {
         btnInventario.setText("     Inventario");
         btnInventario.setBorderPainted(false);
         btnInventario.setContentAreaFilled(false);
-        btnInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnInventario.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,7 +112,7 @@ public class vistaAdmin extends javax.swing.JFrame {
         btnCliente.setToolTipText("");
         btnCliente.setBorderPainted(false);
         btnCliente.setContentAreaFilled(false);
-        btnCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,18 +154,20 @@ public class vistaAdmin extends javax.swing.JFrame {
 
         Background.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -3, -1, 560));
 
+        Content.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout ContentLayout = new javax.swing.GroupLayout(Content);
         Content.setLayout(ContentLayout);
         ContentLayout.setHorizontalGroup(
             ContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
+            .addGap(0, 620, Short.MAX_VALUE)
         );
         ContentLayout.setVerticalGroup(
             ContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addGap(0, 540, Short.MAX_VALUE)
         );
 
-        Background.add(Content, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 640, 560));
+        Background.add(Content, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 620, 540));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -253,5 +260,16 @@ public class vistaAdmin extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     // End of variables declaration//GEN-END:variables
 
+   class FondoPanel extends JPanel{
+   private Image imagen;
    
+   @Override
+   public void paint(Graphics g)
+   {
+       imagen = new ImageIcon(getClass().getResource("/img/FondoBienvAdmin.png")).getImage();
+       g.drawImage(imagen,0,0,getWidth(), getHeight(),this);
+       setOpaque(false);
+       super.paint(g);
+   }
+   }
 }

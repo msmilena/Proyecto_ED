@@ -5,6 +5,10 @@
 package vistas;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 
 
@@ -23,6 +27,7 @@ public class vistaCliente extends javax.swing.JFrame {
     public vistaCliente() {
        
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     public Productos getVentanaProductos() {
@@ -49,7 +54,7 @@ public class vistaCliente extends javax.swing.JFrame {
         btnInventario = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         btnCarrito = new javax.swing.JButton();
-        Content = new javax.swing.JPanel();
+        Content = new FondoPanel();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -74,7 +79,7 @@ public class vistaCliente extends javax.swing.JFrame {
         btnInventario.setText("       Productos");
         btnInventario.setBorderPainted(false);
         btnInventario.setContentAreaFilled(false);
-        btnInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnInventario.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,7 +94,7 @@ public class vistaCliente extends javax.swing.JFrame {
         btnRegresar.setToolTipText("");
         btnRegresar.setBorderPainted(false);
         btnRegresar.setContentAreaFilled(false);
-        btnRegresar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnRegresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRegresar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,7 +109,7 @@ public class vistaCliente extends javax.swing.JFrame {
         btnCarrito.setToolTipText("");
         btnCarrito.setBorderPainted(false);
         btnCarrito.setContentAreaFilled(false);
-        btnCarrito.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCarrito.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCarrito.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnCarrito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +150,8 @@ public class vistaCliente extends javax.swing.JFrame {
         );
 
         Background.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -3, -1, 560));
+
+        Content.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout ContentLayout = new javax.swing.GroupLayout(Content);
         Content.setLayout(ContentLayout);
@@ -250,6 +257,17 @@ public class vistaCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     // End of variables declaration//GEN-END:variables
-
+    class FondoPanel extends JPanel{
+    private Image imagen;
+   
+    @Override
+    public void paint(Graphics g)
+    {
+        imagen = new ImageIcon(getClass().getResource("/img/bienveniclient.png")).getImage();
+        g.drawImage(imagen,0,0,getWidth(), getHeight(),this);
+        setOpaque(false);
+        super.paint(g);
+    }
+    }
    
 }

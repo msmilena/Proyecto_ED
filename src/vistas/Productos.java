@@ -63,6 +63,11 @@ public class Productos extends javax.swing.JPanel {
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, -1, 20));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
         add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, 200, -1));
 
         btnAgregarCarrito.setText("Añadir al carrito");
@@ -71,7 +76,7 @@ public class Productos extends javax.swing.JPanel {
                 btnAgregarCarritoActionPerformed(evt);
             }
         });
-        add(btnAgregarCarrito, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 490, -1, -1));
+        add(btnAgregarCarrito, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 490, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 36)); // NOI18N
         jLabel2.setText("Productos");
@@ -83,17 +88,18 @@ public class Productos extends javax.swing.JPanel {
                 txtNombreProductoActionPerformed(evt);
             }
         });
-        add(txtNombreProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 510, 120, -1));
+        add(txtNombreProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 490, 120, -1));
 
         jLabel3.setText("Producto");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 480, 70, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 470, 70, -1));
 
-        jLabel4.setText("Cantidad");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 480, -1, -1));
+        jLabel4.setText("Llevar");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 470, -1, -1));
 
         spinnerCantidad.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        add(spinnerCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 510, 90, -1));
+        add(spinnerCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 490, 90, -1));
 
+        panelTabla.setBackground(new java.awt.Color(255, 255, 255));
         panelTabla.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tablaInventario.setModel(new javax.swing.table.DefaultTableModel(
@@ -127,30 +133,36 @@ public class Productos extends javax.swing.JPanel {
                 btnVistaGaleriaActionPerformed(evt);
             }
         });
-        add(btnVistaGaleria, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+        add(btnVistaGaleria, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, -1));
 
+        panelGaleria.setBackground(new java.awt.Color(255, 255, 255));
         panelGaleria.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Producto: ");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, -1, -1));
 
         txtNomProducto.setEditable(false);
-        jPanel2.add(txtNomProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 120, -1));
+        jPanel2.add(txtNomProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 60, 120, -1));
 
-        jLabel6.setText("Categoría: ");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, -1, -1));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("  Categoría: ");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, -1));
 
         txtCategoria.setEditable(false);
-        jPanel2.add(txtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 120, -1));
+        jPanel2.add(txtCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 120, -1));
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Precio: ");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, -1, -1));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, -1, -1));
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Cantidad: ");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, -1));
 
         txtPrecio.setEditable(false);
         txtPrecio.addActionListener(new java.awt.event.ActionListener() {
@@ -161,15 +173,14 @@ public class Productos extends javax.swing.JPanel {
         jPanel2.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 120, -1));
 
         txtCantidad.setEditable(false);
-        jPanel2.add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 120, -1));
+        jPanel2.add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 120, -1));
 
-        jLabel9.setText("Id: ");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, -1));
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setText(" Id: ");
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, -1, -1));
 
         txtId.setEditable(false);
-        jPanel2.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 120, -1));
-
-        panelGaleria.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 390, 270));
+        jPanel2.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 120, -1));
 
         btnAnterior.setText("Anterior");
         btnAnterior.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +188,7 @@ public class Productos extends javax.swing.JPanel {
                 btnAnteriorActionPerformed(evt);
             }
         });
-        panelGaleria.add(btnAnterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, -1, -1));
+        jPanel2.add(btnAnterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
 
         btnSiguiente.setText("Siguiente");
         btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
@@ -185,7 +196,9 @@ public class Productos extends javax.swing.JPanel {
                 btnSiguienteActionPerformed(evt);
             }
         });
-        panelGaleria.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 320, -1, -1));
+        jPanel2.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, -1, -1));
+
+        panelGaleria.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 390, 270));
 
         add(panelGaleria, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 640, 350));
     }// </editor-fold>//GEN-END:initComponents
@@ -214,6 +227,10 @@ public class Productos extends javax.swing.JPanel {
     private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecioActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
