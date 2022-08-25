@@ -117,5 +117,25 @@ public class productoDAO {
         }
     }
 
-    
+    //Metodo para buscar un producto en la base de datos por su id
+    public nodoProducto buscar(int id){
+        nodoProducto p = new nodoProducto();
+        String sql = "select * from productos where id="+id;
+        try{
+            con = conectar.conexion();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                System.out.println("normalitos");
+                p.setId(rs.getInt(1));
+                p.setNombre(rs.getString(2));
+                p.setCategoria(rs.getString(3));
+                p.setPrecio(rs.getInt(4));
+                p.setCantidad(rs.getInt(5));
+            }
+        } catch(SQLException e){
+            System.out.println("error: "+e);
+        }
+        return p;
+    }
 }

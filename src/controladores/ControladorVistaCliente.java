@@ -85,8 +85,11 @@ public class ControladorVistaCliente implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e){
+        //listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
+        //actual = pasarSimpleaCircular(listaSimple, circularDoble);
         if(e.getSource() == productos.btnAgregarCarrito){
             agregarCarrito(productos.tablaInventario);
+           
         }
         
         if(e.getSource() == ventanaCliente.btnCarrito){
@@ -133,6 +136,11 @@ public class ControladorVistaCliente implements ActionListener{
         }
         
         if(e.getSource() == productos.btnVistaGaleria){
+            listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
+            listaCircularDobleProductos circularDoble = new listaCircularDobleProductos();
+            actual = pasarSimpleaCircular(listaSimple, circularDoble);
+            
+            System.out.println("ACTUAL CANTIDAD "+actual.getNombre()+" "+actual.getCantidad());
             if(cont == 0){
                 productos.panelTabla.setVisible(false);
                 productos.panelGaleria.setVisible(true);
@@ -203,8 +211,8 @@ public class ControladorVistaCliente implements ActionListener{
             }
             
             //comprobar con la base de datos si la cantidad de productos es mayor a la que se quiere comprar
-            if(cantidadComprar == 0){
-                JOptionPane.showMessageDialog(productos, "No se puede comprar 0 productos");
+            if(cantidadComprar <= 0){
+                JOptionPane.showMessageDialog(productos, "No se puede comprar <= 0 productos");
                 return;
             }
             if(cantidadComprar <= cantidadTotal){
@@ -354,7 +362,7 @@ public class ControladorVistaCliente implements ActionListener{
     }
     
     public nodoProducto pasarSimpleaCircular(listaEnlazadaProducto listaSimple, listaCircularDobleProductos circularDoble){
-        //listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
+        listaSimple = (listaEnlazadaProducto) daoProducto.Listar();
         //circularDoble = new listaCircularDobleProductos();
         for(int i = 0; i<listaSimple.contarNodos(); i++){
             circularDoble.copiarDatos(listaSimple.buscarNodoPos(i));

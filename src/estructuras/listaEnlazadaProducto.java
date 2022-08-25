@@ -184,5 +184,10 @@ public class listaEnlazadaProducto {
         }
         return null;
     }
+
+    //funcion que retorna el primer nodo de la lista
+    public nodoProducto getLista() {
+        return lista;
+    }
 }
 

@@ -4,6 +4,7 @@
  */
 package controladores;
 
+import estructuras.Cola;
 import estructuras.listaEnlazadaCliente;
 import estructuras.listaEnlazadaProducto;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import modelos.productoDAO;
 import estructuras.nodoProducto;
 import modelos.clienteDAO;
+import modelos.productoFueraStockDAO;
 import vistas.Cliente;
 import vistas.Inventario;
 import vistas.ModificarProducto;
@@ -28,17 +30,23 @@ public class ControladorVistaAdmin implements ActionListener {
     //Creando nuevas instancias de las clases
     productoDAO daoProducto = new productoDAO();
     clienteDAO daoCliente= new clienteDAO();
+    productoFueraStockDAO daoFueraStock = new productoFueraStockDAO();
+    
     nodoProducto p = new nodoProducto();
     vistaAdmin vAdmin = new vistaAdmin();
     Inventario inventario = new Inventario();
     Cliente clientes = new Cliente();
     NuevoProducto formNuevoProducto = new NuevoProducto();
     ModificarProducto formEditarProd = new ModificarProducto();
+
     DefaultTableModel modelo = new DefaultTableModel();
     DefaultTableModel modelo1 = new DefaultTableModel();
+    DefaultTableModel modelo2 = new DefaultTableModel();
 
     listaEnlazadaProducto listaSimpleProducto = (listaEnlazadaProducto) daoProducto.Listar();
     listaEnlazadaCliente listaSimpleCliente = (listaEnlazadaCliente) daoCliente.Listar();
+    
+    Cola colaInventarioFueraStock = daoFueraStock.Listar();
     //un constructor que inicializa las variables y agrega los listeners de eventos a los botones
     public ControladorVistaAdmin(vistaAdmin vistaAdmin){
         this.vAdmin = vistaAdmin;
@@ -53,16 +61,20 @@ public class ControladorVistaAdmin implements ActionListener {
         //Inventario
         this.inventario.btnEditar.addActionListener(this);
         this.inventario.btnEliminar.addActionListener(this);
-        
+        this.inventario.btnEliminados.addActionListener(this);
         
         //Vista NuevoProducto
         this.formNuevoProducto.btnAgregar.addActionListener(this);
         //Vista ModificarProducto
         this.formEditarProd.btnActualizar.addActionListener(this);
-        
+
+        this.inventario.btnEliminados.addActionListener(this);
+        this.inventario.btnModificarFueraStock.addActionListener(this);
+        recorrerLista();
         listarProductos(inventario.tablaInventario);
         limpiarTabla(modelo, inventario.tablaInventario);
         listarProductos(inventario.tablaInventario);
+        
     }
       
     @Override
@@ -119,6 +131,35 @@ public class ControladorVistaAdmin implements ActionListener {
             limpiarTabla(modelo1, clientes.tablaClientes);
             listarClientes(clientes.tablaClientes);
         }
+
+        if(e.getSource() == inventario.btnEliminados){
+            System.out.println("HOLI");
+            mostrarCola(inventario.tablaFueraStock);
+            limpiarTabla(modelo2, inventario.tablaFueraStock);
+            mostrarCola(inventario.tablaFueraStock);
+        }
+        
+        if(e.getSource() == inventario.btnModificarFueraStock){
+            int fila = inventario.tablaFueraStock.getSelectedRow();
+            if(fila == -1){ //Si no se selecciona ninguna fila
+                JOptionPane.showMessageDialog(inventario, "Debe seleccionar un producto");
+                inventario.getVentanaModificarProducto().setVisible(false);
+            } else{ //Si se selecciona una fila
+                inventario.getVentanaModificarProducto().setVisible(true);
+                //Se obtiene atributos del producto seleccionado
+                int id= Integer.parseInt(inventario.tablaFueraStock.getValueAt(fila,0).toString());
+                String nom = (String)inventario.tablaFueraStock.getValueAt(fila, 1);
+                String cate = (String)inventario.tablaFueraStock.getValueAt(fila,2);
+                int precio = (int) inventario.tablaFueraStock.getValueAt(fila,3);
+                int cantidad = (int) inventario.tablaFueraStock.getValueAt(fila,4);
+                //Se envian los atributos al formulario de edicion
+                formEditarProd.txtId.setText(""+id);
+                formEditarProd.txtNom.setText(""+nom);
+                formEditarProd.comboBoxCategoria.setSelectedItem(cate);
+                formEditarProd.txtPrecio.setText(""+precio);
+                formEditarProd.spinnerCantidad.setValue(cantidad);
+            }
+        }
         
     }
     
@@ -126,14 +167,29 @@ public class ControladorVistaAdmin implements ActionListener {
     * Toma la tabla y la llena con los datos de la lista enlazada
     * @param tabla la tabla donde se mostraran los datos
     */
+    /**
+     * It takes a JTable as a parameter, then it creates a DefaultTableModel, then it gets the list of
+     * products from the database, then it creates an array of objects, then it loops through the list
+     * of products and adds each product to the table
+     * 
+     * @param tabla The table where the data will be displayed
+     */
     public void listarProductos(JTable tabla){
+        //recorrerLista();
         modelo = (DefaultTableModel)tabla.getModel();
         //Se obtiene la lista de productos
         listaSimpleProducto = (listaEnlazadaProducto) daoProducto.Listar();
+        //nodoProducto aux = listaSimpleProducto.getLista();
         Object[]object = new Object[5];
         //Se recorre la lista de productos
+        // The above code is adding the products to the table.
         for(int i = 0; i<listaSimpleProducto.contarNodos(); i++){
-            //Se obtiene el producto en la posicion i
+            // 
+            if(listaSimpleProducto.buscarNodoPos(i).getCantidad() == 0 ){
+                
+                daoProducto.delete(listaSimpleProducto.buscarNodoPos(i).getId());
+            }else{
+                //Se obtiene el producto en la posicion i
             object[0] = listaSimpleProducto.buscarNodoPos(i).getId(); 
             object[1] = listaSimpleProducto.buscarNodoPos(i).getNombre();
             object[2] = listaSimpleProducto.buscarNodoPos(i).getCategoria();
@@ -141,6 +197,8 @@ public class ControladorVistaAdmin implements ActionListener {
             object[4] = listaSimpleProducto.buscarNodoPos(i).getCantidad();
             //Se agrega el producto a la tabla
             modelo.addRow(object);
+            }
+            
         }
     }
     
@@ -150,7 +208,7 @@ public class ControladorVistaAdmin implements ActionListener {
     */
     public void listarClientes(JTable tabla){
         modelo1 = (DefaultTableModel)tabla.getModel();
-        //Se obtiene la lista de productos
+        //Se obtiene la lista de clientes
         listaSimpleCliente = (listaEnlazadaCliente) daoCliente.Listar();
         Object[]object = new Object[4];
         //Se recorre la lista de productos
@@ -209,14 +267,47 @@ public class ControladorVistaAdmin implements ActionListener {
         p.setCategoria(cate);
         p.setPrecio(precio);
         p.setCantidad(cantidad);
-        //envio a DAO para que sea actualizado en la base de datos
-        int verificador = daoProducto.actualizar(p);
-        
-        if(verificador == 1){
-            JOptionPane.showMessageDialog(inventario, "Producto actualizado con exito");
+        System.out.println("PERFECT "+ cantidad);
+        nodoProducto aux = daoProducto.buscar(id); //sera igual a null cuando no este en producto, es decir cuando este fuera stock
+        nodoProducto aux2 = daoFueraStock.buscar(id); //sera igual al nodo encontrado cuando este fuera stock
+        System.out.println("the cure "+ aux2.getNombre()+aux.getNombre()+aux.getCantidad());
+        if(aux.getNombre() != null){
+            if(cantidad == 0){
+                daoProducto.delete(aux.getId());
+                daoFueraStock.agregar(p);
+                System.out.println("caso 1");
+                 JOptionPane.showMessageDialog(inventario, "Producto trasladado a Inventario Fuera de Stock");
+            } else{
+                System.out.println("caso 2");
+                int verificador = daoProducto.actualizar(p);
+                if(verificador == 1){
+                    JOptionPane.showMessageDialog(inventario, "Producto actualizado con exito");
+                }else{
+                    JOptionPane.showMessageDialog(inventario, "Error");
+                }
+            }
+            
+        }else if(aux2.getNombre() != null){ //fuera de stock
+            System.out.println("twitter");
+            if(cantidad > 0){
+                System.out.println("jelou spotify");
+                daoFueraStock.delete(id);
+                daoProducto.agregar(p);
+                JOptionPane.showMessageDialog(inventario, "Producto trasladado a Inventario");
+            }else{
+                System.out.println("caso 3");
+                int verificador = daoFueraStock.actualizar(p);
+                if(verificador == 1){
+                    JOptionPane.showMessageDialog(inventario, "Producto actualizado con exito");
+                }else{
+                    JOptionPane.showMessageDialog(inventario, "Error");
+                }
+            }
+
         }else{
-            JOptionPane.showMessageDialog(inventario, "Error");
+                JOptionPane.showMessageDialog(inventario, "Error. El producto no existe");
         }
+        
     }
     
     /**
@@ -239,6 +330,81 @@ public class ControladorVistaAdmin implements ActionListener {
         for(int i = 0; i<tabla.getRowCount(); i++){
             model.removeRow(i);
             i = i - 1;
+        }
+    }
+    
+    /**
+     * A function that allows you to go through a list of products and add the products that are out of
+     * stock to a queue.
+     */
+    public void recorrerLista(){
+        //Se obtiene la lista de productos
+        listaSimpleProducto =  daoProducto.Listar();
+        nodoProducto aux = listaSimpleProducto.getLista();
+        for(int i = 0; i<listaSimpleProducto.contarNodos(); i++){
+            if(aux.getCantidad() == 0 ){
+                colaInventarioFueraStock.copiarDatos(aux);
+                System.out.println("agregando a cola : "+ aux.getNombre());
+                
+                            int id = aux.getId();
+            String nom = aux.getNombre();
+            String cate = aux.getCategoria();
+            int precio = aux.getPrecio();
+            int cantidad = aux.getCantidad();
+            //envio
+            p.setId(id);
+            p.setNombre(nom);
+            p.setCategoria(cate);
+            p.setPrecio(precio);
+            p.setCantidad(cantidad);
+            int verificador = daoFueraStock.agregar(p);
+            if(verificador == 1){
+                System.out.println("agregado");
+            }else{
+                JOptionPane.showMessageDialog(inventario, "Error");
+            }
+            }
+            aux = aux.getSiguiente();
+        }
+        
+        nodoProducto auxCola = colaInventarioFueraStock.getCabecera();
+        for(int i = 0; i<colaInventarioFueraStock.getCantidadNodos(); i++){
+            if(auxCola.getCantidad() > 0){
+                daoFueraStock.delete(auxCola.getId());
+                daoProducto.agregar(auxCola);
+                auxCola = auxCola.getSiguiente();
+            }
+        }
+    }
+
+    /**
+     * It takes a table as a parameter and then it creates a new model for the table, then it creates a
+     * new node and a new object array, then it goes through the list of products and adds them to the
+     * table
+     * 
+     * @param tabla is the table where the data will be displayed
+     */
+    public void mostrarCola(JTable tabla){
+        Cola colaInventarioFueraStock = daoFueraStock.Listar();
+        System.out.println("DIOSITO AYUDA");
+        modelo2 = (DefaultTableModel) tabla.getModel();
+        nodoProducto aux = colaInventarioFueraStock.getCabecera();
+        Object[]object = new Object[5];
+        //Se recorre la lista de productos
+        colaInventarioFueraStock.mostrarCola();
+        for(int i = 0; i<colaInventarioFueraStock.getCantidadNodos(); i++){
+            //Se obtiene el producto en la posicion i
+            System.out.println("AQUI ESTA LA COLA CARAJO"+ aux.getNombre());
+            
+            object[0] = aux.getId(); 
+            object[1] = aux.getNombre();
+            object[2] = aux.getCategoria();
+            object[3] = aux.getPrecio();
+            object[4] = aux.getCantidad();
+            //Se agrega el producto a la tabla
+            modelo2.addRow(object);
+            
+            aux = aux.getSiguiente();
         }
     }
 }
