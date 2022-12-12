@@ -1,2 +1,2 @@
 # Proyecto_ED
-holap
+Proyecto para el curso de Estructura de Datos
